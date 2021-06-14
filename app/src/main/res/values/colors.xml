@@ -17,4 +17,6 @@
     <color name="deep_purple_100">#d1c4e9</color>
     <color name="deep_purple_100_light">#fff7ff</color>
     <color name="deep_purple_100_dark">#a094b7</color>
+    <color name="ic_quest_background">#DB3434</color>
+    <color name="ic_smile3_background">#E04555</color>
 </resources>
