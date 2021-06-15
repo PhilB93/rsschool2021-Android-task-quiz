@@ -16,9 +16,10 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+            app:menu="@menu/options_menu"
             app:navigationContentDescription="Back to the previous question"
             app:navigationIcon="@drawable/ic_baseline_chevron_left_24"
             app:title="Question 1" />
@@ -29,10 +30,13 @@
         android:id="@+id/scroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="#EFF2F3"
         app:layout_constraintBottom_toTopOf="@id/previous_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
