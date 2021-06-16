@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -37,13 +38,14 @@ class QuizFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        currentQuestion = args.currentQuestion
         //НАЗНАЧАЮ ТЕМУ ПРИ СОЗДАНИИ ФРАГМЕНТА
-        requireContext().setTheme(setTheme())
+        setTheme()
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         //НАЗНАЧИЛИ ВОПРОС
 
         mQuestionsList = Constants.getQuestions()
-        currentQuestion = args.currentQuestion
+
         mAnswersList = args.answersArray
 
 
@@ -135,14 +137,33 @@ class QuizFragment : Fragment() {
     }
 
     //выбор темы
-    private fun setTheme(): Int {
-        return when (args.currentQuestion) {
-            0 -> R.style.Theme_Quiz_First
-            1 -> R.style.Theme_Quiz_Second
-            2 -> R.style.Theme_Quiz_Three
-            3 -> R.style.Theme_Quiz_Fourth
-            else -> R.style.Theme_Quiz_Fifth
+    private fun setTheme() {
+        val theme: Int
+        val color: Int
+        when (currentQuestion) {
+            0 -> {
+                theme = R.style.Theme_Quiz_First
+                color = R.color.quiz_first_statusBarColor
+            }
+            1 ->{
+                theme = R.style.Theme_Quiz_Second
+                color = R.color.quiz_second_statusBarColor
+            }
+            2 -> {
+                theme = R.style.Theme_Quiz_Three
+                color = R.color.quiz_three_statusBarColor
+            }
+            3 -> {
+                theme = R.style.Theme_Quiz_Fourth
+                color = R.color.quiz_fourth_statusBarColor
+            }
+            else -> {
+                theme = R.style.Theme_Quiz_Fifth
+                color = R.color.quiz_fifth_statusBarColor
+            }
         }
+        requireContext().setTheme(theme)
+        requireActivity().window.statusBarColor = ContextCompat.getColor(requireActivity(), color)
     }
 
     @SuppressLint("ResourceType")
@@ -205,13 +226,18 @@ class QuizFragment : Fragment() {
     }
 
     fun checkVisibilityOfButton() {
+        getNumberOfAnswers()
         if (currentQuestion == 0) {
-            binding.previousButton.visibility = View.INVISIBLE
             binding.toolbar.navigationIcon = null
+            binding.previousButton.visibility = View.INVISIBLE
         }
-        else binding.previousButton.visibility = View.VISIBLE
-
+        if (mSelectedOptionPosition != -1)
+            binding.nextButton.visibility = View.VISIBLE
+        if (currentQuestion == mQuestionsList?.size?.minus(1))
+            binding.nextButton.text = getString(R.string.button_next2)
     }
+
+
 
 
     override fun onDestroyView() {

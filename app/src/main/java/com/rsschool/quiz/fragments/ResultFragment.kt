@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.rsschool.quiz.R
@@ -22,10 +23,13 @@ class ResultFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var questions: MutableList<Question>
     private var mAnswersList: IntArray = intArrayOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        requireContext().setTheme(R.style.Theme_Quiz_First)
+        requireActivity().window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.quiz_first_statusBarColor)
         _binding = FragmentResultBinding.inflate(inflater, container, false)
 
         val args = ResultFragmentArgs.fromBundle(requireArguments())
