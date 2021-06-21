@@ -71,7 +71,7 @@ class QuizFragment : Fragment() {
                 }
             }
 
-            // кнопка Вверх на toolbar
+            // кнопка Вверх
             toolbar.setNavigationOnClickListener {
                 previousQuestion()
             }
@@ -81,45 +81,43 @@ class QuizFragment : Fragment() {
                 binding.nextButton.visibility = View.VISIBLE
             }
 
-            //  Кнопка Previous
+
+
+
+            //...................НАЖАТИЕ ДАЛЕЕ
+           nextButton.setOnClickListener {
+
+                if (currentQuestion != Constants.getQuestions().size - 1) {
+                    getNumberOfAnswers()
+                    if (mSelectedOptionPosition != -1) {
+                        mAnswersList[currentQuestion] = mSelectedOptionPosition
+                        currentQuestion++
+                        view?.findNavController()?.navigate(
+                            QuizFragmentDirections.actionQuizFragmentSelf(
+                                mAnswersList, currentQuestion
+
+                            )
+                        )
+
+                    } else Toast.makeText(requireContext(), "Check answer", Toast.LENGTH_SHORT)
+                        .show()
+                } else {
+                    getNumberOfAnswers()
+                    mAnswersList[currentQuestion] = mSelectedOptionPosition
+
+
+                    view?.findNavController()?.navigate(
+                        QuizFragmentDirections.actionQuizFragmentToResultFragment(mAnswersList)
+                    )
+                }
+
+
+            }
+
+            //...............НАЖАТИЕ НАЗАД
             previousButton.setOnClickListener {
                 previousQuestion()
             }
-        }
-
-
-        //...................НАЖАТИЕ ДАЛЕЕ
-        binding.nextButton.setOnClickListener {
-
-            if (currentQuestion != Constants.getQuestions().size - 1) {
-                getNumberOfAnswers()
-                if (mSelectedOptionPosition != -1) {
-                    mAnswersList[currentQuestion] = mSelectedOptionPosition
-                    currentQuestion++
-                    view?.findNavController()?.navigate(
-                        QuizFragmentDirections.actionQuizFragmentSelf(
-                            mAnswersList, currentQuestion
-
-                        )
-                    )
-
-                } else Toast.makeText(requireContext(), "Check answer", Toast.LENGTH_SHORT).show()
-            } else {
-                getNumberOfAnswers()
-                mAnswersList[currentQuestion] = mSelectedOptionPosition
-
-
-                view?.findNavController()?.navigate(
-                    QuizFragmentDirections.actionQuizFragmentToResultFragment(mAnswersList)
-                )
-            }
-
-
-        }
-
-        //...............НАЖАТИЕ НАЗАД
-        binding.previousButton.setOnClickListener {
-            previousQuestion()
         }
         return binding.root
     }
