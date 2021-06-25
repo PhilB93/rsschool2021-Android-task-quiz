@@ -24,6 +24,7 @@ class QuizFragment : Fragment() {
 
     private var _binding: FragmentQuizBinding? = null
     private val binding get() = _binding!!
+
     private val args: QuizFragmentArgs by navArgs()
 
     private var mQuestionsList: ArrayList<Question>? = null
@@ -43,22 +44,15 @@ class QuizFragment : Fragment() {
         setTheme()
         _binding = FragmentQuizBinding.inflate(inflater, container, false)
         //НАЗНАЧИЛИ ВОПРОС
-
         mQuestionsList = Constants.getQuestions()
 
         mAnswersList = args.answersArray
-
-
-        //............СТАНДАРТНЫЕ НАСТОЙКИ (ВОПРОС, СОТСОЯНИЕ КНОПОК ПЕРЕКЛЮЧЕНИЯ)
         showQuestion(mAnswersList[currentQuestion])
         checkVisibilityOfButton()
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             previousQuestion()
         }
-
-
         binding.apply {
-
             // Меню в toolbar
             toolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
@@ -70,23 +64,16 @@ class QuizFragment : Fragment() {
                     else -> true
                 }
             }
-
             // кнопка Вверх
             toolbar.setNavigationOnClickListener {
                 previousQuestion()
             }
-
             //Если выбран вариант ответа в RadioGroup
             radioGroup.setOnCheckedChangeListener { _, _ ->
-                binding.nextButton.visibility = View.VISIBLE
+                nextButton.isEnabled = true
             }
-
-
-
-
             //...................НАЖАТИЕ ДАЛЕЕ
-           nextButton.setOnClickListener {
-
+            nextButton.setOnClickListener {
                 if (currentQuestion != Constants.getQuestions().size - 1) {
                     getNumberOfAnswers()
                     if (mSelectedOptionPosition != -1) {
@@ -95,25 +82,18 @@ class QuizFragment : Fragment() {
                         view?.findNavController()?.navigate(
                             QuizFragmentDirections.actionQuizFragmentSelf(
                                 mAnswersList, currentQuestion
-
                             )
                         )
-
                     } else Toast.makeText(requireContext(), "Check answer", Toast.LENGTH_SHORT)
                         .show()
                 } else {
                     getNumberOfAnswers()
                     mAnswersList[currentQuestion] = mSelectedOptionPosition
-
-
                     view?.findNavController()?.navigate(
                         QuizFragmentDirections.actionQuizFragmentToResultFragment(mAnswersList)
                     )
                 }
-
-
             }
-
             //...............НАЖАТИЕ НАЗАД
             previousButton.setOnClickListener {
                 previousQuestion()
@@ -143,7 +123,7 @@ class QuizFragment : Fragment() {
                 theme = R.style.Theme_Quiz_First
                 color = R.color.quiz_first_statusBarColor
             }
-            1 ->{
+            1 -> {
                 theme = R.style.Theme_Quiz_Second
                 color = R.color.quiz_second_statusBarColor
             }
@@ -170,7 +150,7 @@ class QuizFragment : Fragment() {
         checkVisibilityOfButton()
 
         val question = mQuestionsList!!.get(currentQuestion)
-        binding.question.text = question.question
+        binding.questionTv.text = question.question
         binding.optionOne.text = question.answers?.get(0) ?: ""
         binding.optionTwo.text = question.answers?.get(1) ?: ""
         binding.optionThree.text = question.answers?.get(2) ?: ""
@@ -181,6 +161,7 @@ class QuizFragment : Fragment() {
             currentQuestion + 1,
             mQuestionsList?.size
         )
+
         binding.apply {
             if (currentQuestion == mQuestionsList?.size?.minus(1))
                 nextButton.text = "Submit"
@@ -197,10 +178,9 @@ class QuizFragment : Fragment() {
         }
     }
 
-    fun getNumberOfAnswers() {
+    private fun getNumberOfAnswers() {
         mSelectedOptionPosition = binding.radioGroup.checkedRadioButtonId
 
-        // Do nothing if nothing is checked (id == -1)
         if (-1 != mSelectedOptionPosition) {
 
             when (mSelectedOptionPosition) {
@@ -227,15 +207,12 @@ class QuizFragment : Fragment() {
         getNumberOfAnswers()
         if (currentQuestion == 0) {
             binding.toolbar.navigationIcon = null
-            binding.previousButton.visibility = View.INVISIBLE
+            binding.previousButton.isEnabled = false
         }
-        if (mSelectedOptionPosition != -1)
-            binding.nextButton.visibility = View.VISIBLE
+        binding.nextButton.isEnabled = mSelectedOptionPosition != -1
         if (currentQuestion == mQuestionsList?.size?.minus(1))
             binding.nextButton.text = getString(R.string.button_next2)
     }
-
-
 
 
     override fun onDestroyView() {

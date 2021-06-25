@@ -20,14 +20,10 @@ class StartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentStartBinding.inflate(inflater, container, false)
-
-
         //Системная кнопка назад
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
             ActivityCompat.finishAffinity(requireActivity())
         }
-
-
         binding.buttonStart.setOnClickListener() {
              val mAnswersList: IntArray = intArrayOf(-1, -1, -1, -1, -1)
 

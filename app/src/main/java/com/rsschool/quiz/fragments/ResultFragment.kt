@@ -29,7 +29,8 @@ class ResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         requireContext().setTheme(R.style.Theme_Quiz_First)
-        requireActivity().window.statusBarColor = ContextCompat.getColor(requireActivity(), R.color.quiz_first_statusBarColor)
+        requireActivity().window.statusBarColor =
+            ContextCompat.getColor(requireActivity(), R.color.quiz_first_statusBarColor)
         _binding = FragmentResultBinding.inflate(inflater, container, false)
 
         val args = ResultFragmentArgs.fromBundle(requireArguments())
@@ -43,15 +44,13 @@ class ResultFragment : Fragment() {
         }
 
         binding.apply {
-
-            // Показать результат
-            "${rightAnswers()} / ${questions.size} ".also { textViewResult.text = "Your result: $it"}
-
+            "${rightAnswers()} / ${questions.size} ".also {
+                textViewResult.text = "Your result: $it"
+            }
             buttonBack.setOnClickListener {
                 view?.findNavController()
                     ?.navigate(ResultFragmentDirections.actionResultFragmentToStartFragment3())
             }
-
             buttonExit.setOnClickListener {
                 ActivityCompat.finishAffinity(requireActivity())
             }
@@ -59,10 +58,9 @@ class ResultFragment : Fragment() {
             buttonShare.setOnClickListener {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.setType("text/plain").putExtra(Intent.EXTRA_TEXT, createMessage())
-               intent.setType("text/plain").putExtra(Intent.EXTRA_SUBJECT, "Quiz results")
+                intent.setType("text/plain").putExtra(Intent.EXTRA_SUBJECT, "Quiz results")
                 startActivity(intent)
             }
-
         }
         return binding.root
     }
@@ -85,21 +83,16 @@ class ResultFragment : Fragment() {
                 )
             }
         }.toString()
-
-
     }
 
     private fun rightAnswers(): Int {
         var rightAnswersCount = 0
-        for (i in 0 until mAnswersList.size)
-        {
+        for (i in 0 until mAnswersList.size) {
             if (mAnswersList[i] == questions[i].correctAnswer)
                 rightAnswersCount++
-
         }
-return rightAnswersCount
+        return rightAnswersCount
     }
-
 
 
 }

@@ -73,7 +73,7 @@
 
 
             <TextView
-                android:id="@+id/question"
+                android:id="@+id/question_tv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="@id/margin_end_guideline"
                 app:layout_constraintStart_toStartOf="@id/margin_start_guideline"
-                app:layout_constraintTop_toBottomOf="@id/question">
+                app:layout_constraintTop_toBottomOf="@id/question_tv">
 
                 <RadioButton
                     android:id="@+id/option_one"
@@ -146,7 +146,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:text="@string/button_next1"
-        android:visibility="invisible"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
